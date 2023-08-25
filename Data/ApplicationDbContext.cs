@@ -10,10 +10,11 @@ namespace Onker.Data {
 		public DbSet<Tag> Tags { get; set; }
 
 
-		public ApplicationDbContext(){
+		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options){
 
 		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {
+			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<ApplicationUser>()
 				.HasMany(user => user.Posts)
 				.WithOne(posts => posts.OriginalPoster)

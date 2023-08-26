@@ -7,6 +7,7 @@ namespace Onker.Models {
 
 		[Required]
 		public string CommentText { get; set; } = null!;
+		public DateTime CommentedDateTime { get; set; } = DateTime.UtcNow;
 
 		[ForeignKey(nameof(ApplicationUser))]
 		public Guid ApplicationUserId { get; set; }

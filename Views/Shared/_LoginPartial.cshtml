@@ -7,6 +7,11 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+	<li class ="nav-item">
+		<a class="btn btn-outline-primary rounded-1" data-bs-toggle="tooltips" data-bs-placement="bottom" title="Create a Post">
+			<img src="/icons/plus.svg" alt="plus-icon"  width="20" height="20">
+		</a>
+	</li>
     <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
     </li>

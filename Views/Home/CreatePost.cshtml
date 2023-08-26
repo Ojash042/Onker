@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Onker.Data
+
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@model Post
+@{
+	ViewData["Title"] = "Create a Post";
+	var currentUser = UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User).Result;
+}
+<div class="container-fluid">
+	<h2>Create a Post, @currentUser.UserName</h2>
+	<form method="post" class="form-outline" asp-controller="Home" asp-action="CreatePostPost">
+		<input type="hidden" asp-for="ApplicationUserId" value="@currentUser.Id" />
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="Title" class="form-control"/>
+			<label asp-for="Title" class="form-label">Title</label>
+			<span asp-validation-for="Title" class="text-danger"></span>
+		</div>
+		<div class="form-floating mb-3">
+			<input type="text" asp-for="UrlLink" class="form-control" />
+			<label asp-for="Title" class="form-label">Link to a article(If any)</label>
+		</div>
+		<div class="form-floating mb-3">
+			<textarea row="4" asp-for="PostText" class="form-control"></textarea>
+			<label asp-for="PostText" class="form-control">Text Here</label>
+		</div>
+		<div class="form-floating mb-3">
+			<select class="form-select" asp-for="TagId" aria-label="Default Value" id="TagPicker">
+				<option selected>Select a Tag</option>
+			</select>
+		</div>
+		<button type = "submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+
+<script>
+	let response
+	let tagPicker = document.getElementById("TagPicker");
+	fetch("/api/GetAllTags")
+		.then((response) => {
+			response.json().then(json => {
+				response = json["message"]
+				json["message"].map(tag => {
+					let optionTag = document.createElement("option")
+					optionTag.setAttribute('value', tag["tagId"])
+					let optionTextNode = document.createTextNode(tag["tagName"])
+					optionTag.appendChild(optionTextNode)
+					tagPicker.appendChild(optionTag)
+				})
+			})
+		})
+	console.log(response)
+
+</script>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Onker.Data;
@@ -11,9 +12,11 @@ using Onker.Data;
 namespace Onker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230826073553_EditPosts")]
+    partial class EditPosts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,9 +243,6 @@ namespace Onker.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CommentedDateTime")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
@@ -269,9 +269,6 @@ namespace Onker.Migrations
 
                     b.Property<string>("PostText")
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("PostedDateTime")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid");

@@ -1,8 +1,50 @@
-﻿@{
+﻿@model List<PostTagUser>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mx-1 px-1">
+	@foreach(var item in Model) {
+		<div class="row">
+			<div class="col-1" style="max-width:5%">
+				<div class="row m-0 p-0" style="width:24px; height:24px;">
+					<button type="button" id = "btn-@item.Post.PostId" class="btn" >
+						<img src="/icons/arrow-up-circle-blue.svg" height="24" width="24">
+				</button>
+				</div>
+				</div>
+					
+			<div class="col-1 align-items-center justify-content-center">
+				@{
+					if (item.UrlMetadataImage != ""){
+						<img src="@item.UrlMetadataImage"  alt="@item.Post.Title">
+					}
+					else {
+						<img src="/icons/align-right.-bluesvg.svg" alt="@item.Post.Title">
+					}
+				}
+			</div>
+			<div class="col">
+				<div class="row">
+					@{
+						string hrefLink = $"/Post/{item.Post.PostId}";
+						if (item.Post.UrlLink.Length>0) {
+							hrefLink = item.Post.UrlLink;
+						}
+					}
+					<a href=@hrefLink class="text-decoration-none text-black-50"><h4>@item.Post.Title</h4></a>
+				</div>
+				<div class="row">
+					<div class="col">
+						<label class="text-decoration-underline me-2 text-black-50">@item.Post.PostKarma points</label>
+						<a href="/Post/@item.Post.PostId" class="me-2 text-black-50">comment</a>
+						<a href="/User/@item.User.Id" class="me-2 text-black-50">by @item.User.UserName</a>
+						<label class="text-decoration-underline me-2 text-black-50">@item.HumanizedDate</label>
+						<label class="text-decoration-underline me-2 text-black-50 bg-secondary rounded-pill p-1">@item.Tag.TagName</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 </div>
+

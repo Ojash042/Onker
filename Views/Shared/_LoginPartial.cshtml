@@ -4,12 +4,15 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{
+}
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-	<li class ="nav-item">
-		<a class="btn btn-outline-primary rounded-1" data-bs-toggle="tooltips" data-bs-placement="bottom" title="Create a Post">
-			<img src="/icons/plus.svg" alt="plus-icon"  width="20" height="20">
+		<li class ="nav-item">
+			<a class="btn btn-outline-primary rounded-1" data-bs-toggle="tooltips" data-bs-placement="bottom" href="/CreatePost" title="Create a Post">
+				<img src="/icons/plus.svg" alt="plus-icon"  width="20" height="20">
 		</a>
 	</li>
     <li class="nav-item">

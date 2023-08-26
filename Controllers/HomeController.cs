@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Onker.Models;
 using Onker.Services;
+using OpenGraphNet;
 using System.Diagnostics;
 
 namespace Onker.Controllers {
@@ -13,8 +15,33 @@ namespace Onker.Controllers {
 			_dataServices = dataServices;
 		}
 		[Route("/")]
-		public IActionResult Index() {
-			return View();
+		public async Task<IActionResult> Index() {
+			List<PostTagUser> postTagUsers = _dataServices.GetAllPosts().Result;
+			
+			foreach (var item in postTagUsers) {
+				item.HumanizedDate = item.Post.PostedDateTime.Humanize();
+
+				if (item.Post.UrlLink.Length > 0) {
+					OpenGraph graph = await OpenGraph.ParseUrlAsync(item.Post.UrlLink);
+					string ogImage="";
+					string twitterImage="";
+					try {
+						ogImage = graph.Metadata["og:image"].First().Value;
+					}
+					catch {
+
+					}
+					try {
+						twitterImage = graph.Metadata["twitter:image"].First().Value;
+					}
+					catch {
+
+					}
+					item.UrlMetadataImage = ogImage.Length > 0 ? ogImage : (twitterImage.Length > 0 ? twitterImage : "");
+				}
+				_logger.LogDebug(item.UrlMetadataImage);
+			}
+			return View(postTagUsers);
 		}
 
 		public IActionResult Privacy() {

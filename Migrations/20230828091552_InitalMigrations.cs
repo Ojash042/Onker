@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Onker.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitalMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,6 @@ namespace Onker.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Username = table.Column<string>(type: "text", nullable: false),
                     DateJoined = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserKarma = table.Column<int>(type: "integer", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -112,8 +111,8 @@ namespace Onker.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -157,8 +156,8 @@ namespace Onker.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LoginProvider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -177,10 +176,11 @@ namespace Onker.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    UrlLink = table.Column<string>(type: "text", nullable: false),
-                    PostText = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    UrlLink = table.Column<string>(type: "text", nullable: true),
+                    PostText = table.Column<string>(type: "text", nullable: true),
                     PostKarma = table.Column<int>(type: "integer", nullable: false),
+                    PostedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TagId = table.Column<Guid>(type: "uuid", nullable: false),
                     ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -207,6 +207,7 @@ namespace Onker.Migrations
                 {
                     CommentId = table.Column<Guid>(type: "uuid", nullable: false),
                     CommentText = table.Column<string>(type: "text", nullable: false),
+                    CommentedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: false),
                     PostId = table.Column<Guid>(type: "uuid", nullable: false)
                 },

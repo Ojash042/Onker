@@ -1,0 +1,40 @@
+﻿@model UserView
+@{
+	ViewData["Title"] = Model.user.UserName;
+	int counter = 0;
+}
+
+<h3 class="my-3">Change User Roles For @Model.user.UserName</h3>
+<div class ="container-fluid d-flex align-items-center my-3">
+	<table class="table table-dark table-sm my-2">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col" class="text-center">Available User Roles</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				for(int i=0; i< Model.Roles.Count; i++) {
+					<tr>
+						<th scope="row">@(i+1)</th>
+						<td class="text-center">@Model.Roles.ElementAt(i)</td>
+					</tr>
+				}	
+		}
+		</tbody>
+	</table>
+</div>
+
+<h3 class="my-3">Choose a role for the user</h3>
+<form class="form-outline">
+	<select class="form-select form-select-sm">
+		<option selected>Select a Role</option>
+		@{
+			for(int i=0; i< Model.Roles.Count; i++) {
+				<option value = "@Model.Roles.ElementAt(i)">@Model.Roles.ElementAt(i)</option>
+			}
+		}
+	</select>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>

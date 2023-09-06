@@ -17,7 +17,7 @@
 			<div class="col-1 align-items-center justify-content-center">
 				@{
 					if (item.UrlMetadataImage != ""){
-						<img src="@item.UrlMetadataImage"  alt="@item.Post.Title">
+						<img src="@item.UrlMetadataImage"  alt="@item.Post.Title" height="60" width="60">
 					}
 					else {
 						<img src="/icons/align-right.-bluesvg.svg" alt="@item.Post.Title">
@@ -40,7 +40,7 @@
 						<a href="/Post/@item.Post.PostId" class="me-2 text-black-50">comment</a>
 						<a href="/User/@item.User.Id" class="me-2 text-black-50">by @item.User.UserName</a>
 						<label class="text-decoration-underline me-2 text-black-50">@item.HumanizedDate</label>
-						<label class="text-decoration-underline me-2 text-black-50 bg-secondary rounded-pill p-1">@item.Tag.TagName</label>
+						<label class="text-decoration-underline me-2 text-black-50 bg-secondary rounded-pill px-2 py-1">@item.Tag.TagName</label>
 					</div>
 				</div>
 			</div>

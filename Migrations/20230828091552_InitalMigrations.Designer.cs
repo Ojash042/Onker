@@ -12,8 +12,8 @@ using Onker.Data;
 namespace Onker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230826073553_EditPosts")]
-    partial class EditPosts
+    [Migration("20230828091552_InitalMigrations")]
+    partial class InitalMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,12 +103,10 @@ namespace Onker.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -144,12 +142,10 @@ namespace Onker.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -243,6 +239,9 @@ namespace Onker.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CommentedDateTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
@@ -269,6 +268,9 @@ namespace Onker.Migrations
 
                     b.Property<string>("PostText")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("PostedDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid");

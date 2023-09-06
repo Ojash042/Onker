@@ -1,0 +1,14 @@
+﻿@model List<ApplicationUser>
+@{
+	ViewData["Title"] = "User List";
+}
+<div class="container">
+	<ul class="list-group">
+		<li class="list-group-item active">User List</li>
+		@{
+			foreach(var item in Model) {
+				<li class="list-group-item"><a class="text-primary text-decoration-none" href="/Admin/User/@item.Id">@item.UserName</a></li>
+			}
+		}
+	</ul>
+</div>

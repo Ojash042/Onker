@@ -6,5 +6,6 @@
 		public IEnumerable<Comment> Comments {get; set;}
 		public string URLMetadataImage { get; set; }
 		public string HumanizedDate { get; set; }
+		public List<string> HumanizedDateComments { get; set; }
 	}
 }

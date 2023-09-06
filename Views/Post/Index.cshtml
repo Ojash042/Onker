@@ -1,4 +1,92 @@
-﻿@model List<PostTagUser>;
+﻿@using Microsoft.AspNetCore.Identity;
+
+@model PostTagCommentsUser
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
+
 @{
-	ViewData["Title"] = "Post";
+	ViewData["Title"] = Model.Post.Title;
+
+	int Length = Model.Comments.Count();
+	Comment newComment = new Comment {};
+	bool loggedIn = User.Identity.IsAuthenticated;
+	Model.Comments = Model.Comments.Append(newComment);
+	string userStringId = String.Empty;
+	if(loggedIn){
+		var user = UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User).Result;
+		userStringId = user.Id.ToString();
+	}
 }
+
+<div class="row">
+	<div class="col-1" style="max-width:5%">
+		<div class="row m-0 p-0" style="width:24px; height:24px;">
+			<button type="button" id = "btn-@Model.Post.PostId" class="btn" >
+				<img src="/icons/arrow-up-circle-blue.svg" height="24" width="24">
+			</button>
+		</div>
+	</div>
+	<div class="col">
+		@{
+			string hrefLink = $"/Post/{Model.Post.PostId}";
+			if (Model.Post.UrlLink.Length>0) {
+				hrefLink = Model.Post.UrlLink;
+			}
+			<a href=@hrefLink class="text-decoration-none text-black-50"><h4>@Model.Post.Title</h4></a>
+
+		}
+
+	</div>
+		<div class="flex-row align-items-center px-5 py-1 mx-4 d-inline-flex">
+			<label class="text-decoration-underline align-items-center text-center me-2 text-black-50">@Model.Post.PostKarma points</label>
+			<a href="/User/@Model.User.Id" class="me-2 text-black-50 text-center">by @Model.User.UserName</a>
+			<label class="text-decoration-underline me-2 text-black-50 text-center">@Model.HumanizedDate</label>
+			<label class="text-decoration-underline px-2 py-0 rounded-pill bg-secondary text-black-50 text-center">@Model.Tag.TagName</label>
+		</div>
+	@{
+		if (!String.IsNullOrEmpty(Model.URLMetadataImage))
+		{
+			<div class="flex-row d-flex justify-content-center align-items-center">
+				<img src="@Model.URLMetadataImage" class="align-self-center" alt="@Model.Post.Title" height="256" width="256"/>
+			</div>
+		}
+		if (String.IsNullOrEmpty(Model.Post.PostText)) {
+			<div class="row">
+				<p class="p">@Model.Post.PostText</p>
+			</div>
+		}
+	}
+</div>
+<div class="container-fluid">
+		<form class="form-group" method="post" asp-controller="Post" asp-action="MakeComment">
+			@{ if(loggedIn){
+				<input type="hidden" value="@Model.Post.PostId" name="PostId"/>
+				<input type = "hidden" value="@Guid.Parse(userStringId)" name="UserId"/>
+				<div class="form-floating mb-3">
+					<input type="text" id="CommentText" name="CommentText" class="form-control form-control-lg" >
+					<label for="CommentText" class="col-form-label-sm form-label">Comment your thoughts...</label>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			}
+			else {
+				<div class="border bg-dark bg-opacity-75 m-1 px-1">
+					<label class="p-2 m-2"><a href="/Login" class="text-black-50">Login to Comment</a></label>		
+				</div>
+				}
+			}
+		</form>
+</div>
+<div class="container-fluid mt-3">
+<h4 class="fw-bolder">Comments:</h4>
+@{
+	for(int i =0; i < Length; i++) {
+		<div class="card my-3 w-50">
+			<div class="card-body">
+				<h5 class="card-title fw-bold"><img src="/icons/user.svg" class="me-1" alt="user"/>@Model.Comments.ElementAt(i).OrigianalCommenter.UserName</h5>
+				<p action="card-subtitle">@Model.HumanizedDateComments[i]</p>
+				<h5 class="card-text fw-bolder">@Model.Comments.ElementAt(i).CommentText</h5>
+			</div>
+		</div>
+	}
+}
+</div>

@@ -1,0 +1,32 @@
+﻿@model ApplicationUser
+@{
+	ViewData["Title"] = Model.UserName;
+}
+<div class="container">
+	<div class="form-outline">
+		<div class="form-row my-1">
+			<label for="userId" class="form-label">UserID:</label>
+			<div class="form-control" id="userId">@Model.Id</div>
+		</div>
+		<div class="form-row my-1">
+			<label for="userId" class="form-label">Username:</label>
+			<div class="form-control" id="userId">@Model.UserName</div>
+		</div>
+		<div class="form-row my-1">
+			<label for="userId" class="form-label">User Email:</label>
+			<div class="form-control" id="userId">@Model.Email</div>
+		</div>
+		<div class="form-row my-1">
+			<label for="userId" class="form-label">Hashed Password:</label>
+			<div class="form-control" id="userId">@Model.PasswordHash</div>
+		</div>
+		<div class="form-row my-1">
+			<label for="userId" class="form-label">UserID:</label>
+			<div class="form-control" id="userId">@Model.DateJoined</div>
+		</div>
+		<div class="form-row my-3">
+			<a class="btn btn-primary" href="/Admin/ChangeUserRole/@Model.Id">@($"Change {Model.UserName}\'s Role")</a>
+		</div>
+	</div>
+</div>
+

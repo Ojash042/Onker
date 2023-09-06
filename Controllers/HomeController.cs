@@ -10,10 +10,12 @@ namespace Onker.Controllers {
 	public class HomeController : Controller {
 		private readonly ILogger<HomeController> _logger;
 		private readonly DataServices _dataServices;
+
 		public HomeController(ILogger<HomeController> logger, DataServices dataServices) {
 			_logger = logger;
 			_dataServices = dataServices;
 		}
+
 		[Route("/")]
 		public async Task<IActionResult> Index() {
 			List<PostTagUser> postTagUsers = _dataServices.GetAllPosts().Result;
@@ -47,21 +49,7 @@ namespace Onker.Controllers {
 		public IActionResult Privacy() {
 			return View();
 		}
-
-		[Route("/CreateTag")]
-		[HttpGet]
-		public IActionResult CreateTag() {
-			return View();
-		}
-
-		[Authorize]
-		[Route("/CreateTagPost")]
-		[HttpPost]
-		public IActionResult CreateTagPost(Tag tag) {
-			_dataServices.CreateTagObject(tag);	
-			return RedirectToAction("CreateTag");
-		}
-
+		
 		[Authorize]
 		[Route("/CreatePost")]
 		[HttpGet]

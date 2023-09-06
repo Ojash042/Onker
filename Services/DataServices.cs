@@ -33,6 +33,10 @@ namespace Onker.Services {
 				return result;
 		}
 
+		public void CreateAComment(Comment comment) {
+			_dbContext.Comments.Add(comment);
+			_dbContext.SaveChanges();
+		}
 		public async Task<PostTagCommentsUser> GetPost(Guid postId) {
 			return await _dbContext.Posts
 				.Where(post => post.PostId == postId)
